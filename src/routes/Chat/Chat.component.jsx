@@ -8,9 +8,12 @@ import { useEffect } from 'react';
 import { db } from '../../utils/firebase/firebase';
 import { useState } from 'react';
 
+import Message from './Message/Message.component';
+
 const Chat = () => {
     const { roomId } = useParams()
     const [roomDetails, setRoomDetails] = useState(null)
+    const [roomMessages, setRoomMessages] = useState([])
 
     useEffect(() => {
         if (roomId) {
@@ -18,6 +21,14 @@ const Chat = () => {
                 .onSnapshot(snapshot => {
                     setRoomDetails(snapshot.data())
                 })
+
+            db.collection('rooms')
+                .doc(roomId)
+                .collection('messages')
+                .orderBy('timestamp', 'asc')
+                .onSnapshot((snapshot) => (
+                    setRoomMessages(snapshot.docs.map(doc => (doc.data())))
+                ))
         }
     }, [roomId])
 
@@ -35,6 +46,14 @@ const Chat = () => {
                         <InfoOutlinedIcon /> Details
                     </p>
                 </div>
+            </div>
+
+            <div className="chat__messages">
+                {
+                    roomMessages.map(({ message, timestamp, user, userImage }) => (
+                        <Message message={message} timestamp={timestamp} user={user} userImage={userImage} />
+                    ))
+                }
             </div>
         </div>
     )
