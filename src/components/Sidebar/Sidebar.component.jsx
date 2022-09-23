@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import './Sidebar.styles.scss'
 
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -17,8 +17,10 @@ import AddIcon from '@mui/icons-material/Add';
 import SidebarOption from '../SidebarOption/SidebarOption.component';
 
 import { db } from '../../utils/firebase/firebase';
+import { UserContext } from '../../context/UserContext/userContext';
 
 const Sidebar = () => {
+    const { user } = useContext(UserContext)
 
     const [channels, setChannels] = useState([])
 
@@ -38,7 +40,7 @@ const Sidebar = () => {
                     <h2>Coder</h2>
                     <h3>
                         <FiberManualRecordIcon />
-                        MH
+                        {user.displayName}
                     </h3>
                 </div>
                 <CreateIcon />
