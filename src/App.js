@@ -21,7 +21,7 @@ const Welcome = () => {
 
 function App() {
   const { user } = useContext(UserContext)
-  console.log(user);
+  // const user = '1'
 
   return (
     <Router>

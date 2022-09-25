@@ -9,6 +9,7 @@ import { db } from '../../utils/firebase/firebase';
 import { useState } from 'react';
 
 import Message from './Message/Message.component';
+import ChatInput from './ChatInput/ChatInput.component';
 
 const Chat = () => {
     const { roomId } = useParams()
@@ -29,6 +30,8 @@ const Chat = () => {
                 .onSnapshot((snapshot) => (
                     setRoomMessages(snapshot.docs.map(doc => (doc.data())))
                 ))
+
+            // console.log(roomMessages);
         }
     }, [roomId])
 
@@ -51,10 +54,12 @@ const Chat = () => {
             <div className="chat__messages">
                 {
                     roomMessages.map(({ message, timestamp, user, userImage }) => (
-                        <Message message={message} timestamp={timestamp} user={user} userImage={userImage} />
+                        <Message key={timestamp} message={message} timestamp={timestamp} user={user} userImage={userImage} />
                     ))
                 }
             </div>
+
+            <ChatInput channelName={roomDetails?.name} channelId={roomId} />
         </div>
     )
 }

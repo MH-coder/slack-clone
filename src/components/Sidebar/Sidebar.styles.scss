@@ -4,6 +4,12 @@
     border-top: 1px solid #49274b;
     color: white;
     flex: 0.3;
+    overflow: scroll;
+    padding-bottom: 20px;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     hr {
         margin: 10px 0px;
